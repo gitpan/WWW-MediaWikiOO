@@ -1,0 +1,11 @@
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         WWW-MediaWikiOO
+version:      0.00_0001
+version_from: WWW/MediaWikiOO.pm
+installdirs:  site
+requires:
+    Params::Validate:              0.75
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.17
