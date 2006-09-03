@@ -1,4 +1,4 @@
-# $Id: MediaWikiOO.pm,v 1.2 2005/09/17 22:20:35 cfaerber Exp $
+# $Id: MediaWikiOO.pm,v 1.3 2006/09/03 15:25:13 cfaerber Exp $
 #
 # WWW::MediaWikiOO - object-orientated interface to MediaWiki sites.
 # (c) Copyright 2005 Claus Faerber <perl@faerber.muc.de>
@@ -27,7 +27,7 @@
 #
 package WWW::MediaWikiOO;
 
-our $VERSION = '0.00_0001';
+our $VERSION = '0.00_20060903';
 
 use utf8;
 use strict;
@@ -144,7 +144,7 @@ sub site_uri {
 sub login {
   my($self,$name,$pass) = @_;
 
-  my $res = $self->_ua->post($self->_api('title'=>'Special:Userlogin','action'=>'submit'),
+  my $res = $self->_ua->post($self->_api('title'=>'Special:Userlogin','action'=>'submitlogin'),
     { 'wpName' => $name, 'wpRemember' => 1, 'wpPassword' => $pass, 'wpLoginattempt' => 1, } );
   return 1 if ($res->code >= 301 && $res->code <= 306);
   croak $res->message unless $res->is_success;
@@ -169,17 +169,18 @@ sub upload {
   croak 'no message' unless $message;
  
   my %data = ();
-  $data{'UploadFile'}		= (ref $file eq 'ARRAY') ? $file : [$file];
-  $data{'UploadDescription'}	= $message;
-  $data{'UploadAffirm'}		= 1;
-  $data{'Upload'}		= 1;
-  $data{'IgnoreWarning'}	= 1 if  $param{'overwrite'};
+  $data{'wpUploadFile'}		= (ref $file eq 'ARRAY') ? $file : [$file];
+  $data{'wpUploadDescription'}	= $message;
+  $data{'wpUploadAffirm'}	= 1;
+  $data{'wpUpload'}		= "Upload file";
+  $data{'wpIgnoreWarning'}	= 1 if  $param{'overwrite'};
   
-  my $res = $self->_ua->post($self->_api('title'=>'Special:Upload'),\%data );
+  my $res = $self->_ua->post($self->_api('title'=>'Special:Upload'),\%data, 
+    'Content_Type' => 'form-data' );
   
   return 1 if ($res->code >= 301 && $res->code <= 306);
   croak $res->message unless $res->is_success;
-  croak 'login failed';
+  croak 'already present: '.$res->message."\n----\n".$res->content."\n----";
 }
 
 1;

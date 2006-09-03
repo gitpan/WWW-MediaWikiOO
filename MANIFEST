@@ -1,5 +1,7 @@
-WWW/MediaWikiOO.pm
-WWW/MediaWikiOO/Article.pm
+lib/WWW/MediaWikiOO.pm
+lib/WWW/MediaWikiOO/Article.pm
 MANIFEST
+COPYING
+ARTISTIC
 Makefile.PL
 META.yml                                 Module meta-data (added by MakeMaker)

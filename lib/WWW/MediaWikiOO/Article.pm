@@ -1,4 +1,4 @@
-# $Id: Article.pm,v 1.2 2005/09/17 22:20:35 cfaerber Exp $
+# $Id: Article.pm,v 1.1 2006/06/11 14:55:27 cfaerber Exp $
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of either:
